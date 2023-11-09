@@ -1,2 +1,27 @@
 # contains the analysis procedures for our hypothesis
-# TODO
+
+library(dplyr)
+
+source("utils.r")
+
+hosts2 <- load_hosts()
+envelope2 <- load_envelope()
+leptraits2 <- load_leptraits()
+
+# ignore hybrids
+envelope3 <- envelope2[is.na(envelope2$Plant.SubSpecies1),]
+
+insects_hosts <- left_join(leptraits2,
+          hosts2,
+          by=c("Insect.Species1" = "Insect.Species", "Genus" = "Insect.Genus"),
+          relationship = "many-to-many"
+)
+
+insect_hosts_envelopes <- inner_join(insects_hosts,
+          envelope3,
+          by=c("Hostplant.Genus" = "genus",
+               "Hostplant.Species" = "Plant.Species1"),
+          relationship = "many-to-many"
+)
+
+by_insect <- group_by(insect_hosts_envelopes, verbatimSpecies)
