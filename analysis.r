@@ -25,3 +25,15 @@ insect_hosts_envelopes <- inner_join(insects_hosts,
 )
 
 by_insect <- group_by(insect_hosts_envelopes, verbatimSpecies)
+
+grouped_envelopes <- by_insect %>% summarize(
+  temp_max = max(tmax),
+  temp_min = min(tmin),
+  wingspan_upper = mean(WS_U),
+  wingspan_lower = mean(WS_L)
+)
+
+model1 <- lm(wingspan_upper ~ temp_max, grouped_envelopes)
+print(summary(model1))
+
+plot(grouped_envelopes$temp_max, grouped_envelopes$wingspan_upper)
