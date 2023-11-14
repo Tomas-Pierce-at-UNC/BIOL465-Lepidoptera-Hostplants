@@ -38,3 +38,5 @@ model1 <- lm(wingspan_upper ~ temp_max, grouped_envelopes)
 print(summary(model1))
 
 plot(grouped_envelopes$temp_max, grouped_envelopes$wingspan_upper)
+
+# hi
