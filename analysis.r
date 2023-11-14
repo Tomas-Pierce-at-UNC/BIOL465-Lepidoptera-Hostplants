@@ -30,7 +30,8 @@ grouped_envelopes <- by_insect %>% summarize(
   temp_max = max(tmax),
   temp_min = min(tmin),
   wingspan_upper = mean(WS_U),
-  wingspan_lower = mean(WS_L)
+  wingspan_lower = mean(WS_L),
+  number_hosts = n_distinct(Hostplant.Genus, Hostplant.Species)
 )
 
 model1 <- lm(wingspan_upper ~ temp_max, grouped_envelopes)
